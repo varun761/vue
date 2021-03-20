@@ -1,12 +1,16 @@
 <template>
-    <b-container fluid>
-        <b-row>
-            <b-col class="px-0">
-                <nav-bar :items="items" logo-text="Logo Here" fixed="top"/>
-            </b-col>
-        </b-row>
-        <home-slider :items="sliderItems"/>
-    </b-container>
+  <b-container fluid>
+    <b-row>
+      <b-col class="px-0">
+        <nav-bar
+          :items="items"
+          logo-text="Logo Here"
+          fixed="top"
+        />
+      </b-col>
+    </b-row>
+    <home-slider :items="sliderItems" />
+  </b-container>
 </template>
 
 <script>
@@ -14,6 +18,10 @@ import NavBar from '../components/NavBar'
 import HomeSlider from '../components/HomeSlider'
 
 export default {
+    components: {
+        NavBar,
+        HomeSlider
+    },
     data () {
       return {
         sliderItems: [
@@ -62,10 +70,6 @@ export default {
             }
         ]
       }
-    },
-    components: {
-        NavBar,
-        HomeSlider
     }
 }
 </script>
