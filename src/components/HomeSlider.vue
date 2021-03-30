@@ -68,11 +68,16 @@ export default {
 						'slider-image': true
                     }
             }, sliderOverlay))
-			const slider = h('div',	{
+			const sliderHolderImage = h('div',	{
 				class: {
 					'overlay-background': true
 				}
 			}, sliderImage)
+			const slider = h('transition', {
+				class: {
+					'v-enter-active': true
+				}
+			}, [sliderHolderImage])
 			return h('b-col', {
 				class: { 
 					'px-0': true
@@ -92,33 +97,7 @@ export default {
   }
 }
 </script>
+
 <style lang="scss">
-.homeSlider {
-	margin-top: 3.5rem;
-    img {
-        width: 100%;
-    }
-	.slider-image{
-		height: 91vh;
-		background-size: cover;
-		background-repeat: no-repeat;
-		&:hover .overlay-text{
-			display: block;
-		}
-		.overlay-text {
-			height: 91vh;
-			color: #fff;
-			background: rgba(0,0,0,0.4);
-			text-align: center;
-			padding: 15px;
-			word-break: break-all;
-			.overlay-content-text {
-				margin-top: 40vh;
-				h3 {
-					text-transform: capitalize;
-				}
-			}
-		}
-	}
-}
+@import '../assets/scss/HomeSlider.scss';
 </style>
