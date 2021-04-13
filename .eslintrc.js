@@ -4,5 +4,8 @@ module.exports = {
     'plugin:vue/recommended',
     'plugin:vue/essential',
     'plugin:vue/strongly-recommended'
-  ]
+  ],
+  parserOptions: {
+    parser: 'babel-eslint'
+  }
 }
