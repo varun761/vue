@@ -1,4 +1,22 @@
+@import './variables.scss';
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap');
 body {
     font-family: 'Open Sans', sans-serif;
+}
+ul {
+    list-style: none;
+    padding: 0;
+}
+footer {
+    background: $top-navbar-background;
+    color: $top-navbar-link-color;
+    li {
+        margin: 5px 0;
+    }
+    a {
+        color: $top-navbar-link-color;
+        &:hover{
+            color: $top-navbar-link-hover-color;
+        }
+    }
 }

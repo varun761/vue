@@ -7,6 +7,10 @@
 		height: 91vh;
 		background-size: cover;
 		background-repeat: no-repeat;
+		@media screen and (max-width: 768px) {
+			max-height: 395px;
+			min-height: 395px;
+		}
 		&:hover .overlay-text{
 			display: block;
 		}
@@ -17,12 +21,19 @@
 			text-align: center;
 			padding: 15px;
 			word-break: break-all;
+			@media screen and (max-width: 768px) {
+				max-height: 395px;
+				min-height: 395px;
+			}
 			.overlay-content-text {
 				margin-top: 21vh;
 				h3 {
 					text-transform: capitalize;
 				}
-                @media screen and (max-width: 768px) {
+				@media screen and (max-width: 320px) {
+                    margin-top: 2vh;
+                }
+                @media screen and (min-width: 321px) and (max-width: 768px) {
                     margin-top: 14vh;
                 }
 			}

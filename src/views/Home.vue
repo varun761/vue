@@ -1,27 +1,116 @@
 <template>
-  <b-container fluid>
-    <nav-bar
-      :items="items"
-      logo-text="Logo Here"
-      fixed="top"
-    />
-    <home-slider :items="sliderItems" />
-    <b-row class="py-4">
-      <b-col
-        cols="12"
-        class="text-center mb-3"
-      >
-        <h2 class="font-weight-lighter">
-          Services
-        </h2>
-      </b-col>
-      <b-col cols="12">
-        <b-row>
-          <services-card :sections="services" />
+  <div class="wrapper">
+    <header>
+      <b-container fluid>
+        <!--NavBar-->
+        <nav-bar
+          :items="items"
+          logo-text="Logo Here"
+          fixed="top"
+        />
+      </b-container>
+    </header>
+    <!--Home Slider-->
+    <section class="slider">
+      <b-container fluid>
+        <home-slider :items="sliderItems" />
+      </b-container>
+    </section>
+    <!--Services-->
+    <section class="services">
+      <b-container fluid>
+        <b-row class="py-4">
+          <b-col
+            cols="12"
+            class="text-center mb-3"
+          >
+            <h2 class="font-weight-lighter">
+              Services
+            </h2>
+          </b-col>
+          <b-col cols="12">
+            <b-row>
+              <services-card :sections="services" />
+            </b-row>
+          </b-col>
         </b-row>
-      </b-col>
-    </b-row>
-  </b-container>
+      </b-container>
+    </section>
+    <!--FOOTER--->
+    <footer>
+      <b-container class="py-5">
+        <b-row>
+          <b-col
+            class="footer-sections"
+            cols="12"
+            md="3"
+          >
+            <h5>Our Company</h5>
+            <ul>
+              <li>About Us</li>
+              <li>Why Choose Us</li>
+              <li>Careers</li>
+              <li>Contact Us</li>
+              <li>News</li>
+            </ul>
+          </b-col>
+          <b-col
+            class="footer-sections"
+            cols="12"
+            md="3"
+          >
+            <h5>Our Company</h5>
+            <ul>
+              <li>About Us</li>
+              <li>Why Choose Us</li>
+              <li>Careers</li>
+              <li>Contact Us</li>
+              <li>News</li>
+            </ul>
+          </b-col>
+          <b-col
+            class="footer-sections"
+            cols="12"
+            md="3"
+          >
+            <h5>Our Company</h5>
+            <ul>
+              <li>About Us</li>
+              <li>Why Choose Us</li>
+              <li>Careers</li>
+              <li>Contact Us</li>
+              <li>News</li>
+            </ul>
+          </b-col>
+          <b-col
+            class="footer-sections"
+            cols="12"
+            md="3"
+          >
+            <h5>Our Company</h5>
+            <ul>
+              <li>About Us</li>
+              <li>Why Choose Us</li>
+              <li>Careers</li>
+              <li>Contact Us</li>
+              <li>News</li>
+            </ul>
+          </b-col>
+        </b-row>
+      </b-container>
+      <b-container class="py-3">
+        <b-row>
+          <b-col>
+            <div class="d-flex">
+              <div class="d-flex-column">
+                Copyright 2021 - Varun Sharma
+              </div>
+            </div>
+          </b-col>
+        </b-row>
+      </b-container>
+    </footer>
+  </div>
 </template>
 
 <script>
@@ -39,28 +128,64 @@ export default {
       return {
         services: [
           {
+            title: 'Backend Development',
+            description: 'We provide service for backend development',
+            features: [
+              'API development',
+              'Web development',
+              'Payment integration',
+              'Third party login',
+              'SSO'
+            ]
+          },
+          {
+            title: 'Wordpress Development',
+            description: 'We provide service for wordpress customization',
+            features: [
+              'Plugin Development',
+              'Theme Development',
+              'BuddyPress Customization',
+              'Theme Customization',
+              'Wocommerce Integration'
+            ]
+          },
+          {
+            title: 'E-commerce Development',
+            description: 'We provide service for online store setup',
+            features: [
+              'Shopify',
+              'Magento',
+              'Wordpress',
+              'Bigcommerce',
+              'Laravel'
+            ]
+          },
+          {
+            title: 'Bigcommerce Development',
+            description: 'We provide service to customize and setup your bigcommerce store',
+            features: [
+              'Extension Development',
+              'Theme development',
+              'Checkout customization'
+            ]
+          },
+          {
+            title: 'Front-End Development',
+            description: 'We provide service for single page applications',
+            features: [
+              'Vue',
+              'React',
+              'Angular'
+            ]
+          },
+          {
             title: 'App Development',
-            innerText: 'App Development'
-          },
-          {
-            title: 'Website Development',
-            innerText: 'Website Development'
-          },
-          {
-            title: 'Wordpress Plugin Development',
-            innerText: 'Wordpress Plugin Development'
-          },
-          {
-            title: 'App Development',
-            innerText: 'App Development'
-          },
-          {
-            title: 'Website Development',
-            innerText: 'Website Development'
-          },
-          {
-            title: 'Wordpress Plugin Development',
-            innerText: 'Wordpress Plugin Development'
+            description: 'We provide service to develope the hybrid application for ios and android based operating systems',
+            features: [
+              'Flutter',
+              'React Native',
+              'Vue Native'
+            ]
           }
         ],
         sliderItems: [
@@ -106,6 +231,9 @@ export default {
             },
             {
                 title: 'Contact Us'
+            },
+            {
+                title: 'Login'
             }
         ]
       }
