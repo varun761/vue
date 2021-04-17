@@ -14,8 +14,9 @@
           :show="invalid"
           variant="danger"
           dismissible
+          @dismissed="resetInvalid"
         >
-          Email or password is incorrect.
+          {{ error }}
         </b-alert>
       </b-col>
     </b-row>
@@ -59,6 +60,7 @@
           block
           variant="outline-primary"
           :disabled="submit"
+          class="submitBtn"
           @click="handleClick"
         >
           Sign Up
@@ -80,7 +82,8 @@ export default {
       password: null,
       cpass: null,
       submit: false,
-      invalid: false
+      invalid: false,
+      error: null
     };
   },
   validations: {
@@ -96,22 +99,44 @@ export default {
     },
   },
   methods: {
-    handleClick () {
+    reset () {
+      this.resetInvalid()
+      this.$v.email.$model = null
+      this.$v.password.$model = null
+      this.$v.$reset()
+    },
+    resetInvalid () {
       this.invalid = false
+      this.error = null
+    },
+    handleClick () {
+      this.resetInvalid()
       this.submit = true
       this.$v.$touch()
       if (this.$v.$invalid) {
         this.submit = false
         return false
       }
+      const self = this
+      // Signup new user
       Firebase.auth().createUserWithEmailAndPassword(this.$v.email.$model, this.$v.password.$model)
         .then((userCredential) => {
-          console.log(userCredential)
-          this.$emit('valid', userCredential)
+          const { user } = userCredential
+          // Send email verification to new user on success signup
+          user.sendEmailVerification().then(function() {
+            /*
+            * Emit event for verification email sent
+            */
+            self.$emit('valid', {
+              email: self.$v.email.$model,
+              password: self.$v.password.$model
+            })
+          }).catch(function(e) {
+            console.log(e)
+          });
         })
         .catch((e) => {
-          const { response } = e
-          console.log(response)
+          this.error = e.message
           this.invalid = true
           this.$emit('invalid')
         })
@@ -121,5 +146,32 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
+@import '../../assets/scss/variables';
+.LogoText {
+  font-size: 1.25rem;
+}
+.SignUpForm {
+  font-weight: 100;
+  input {
+    font-weight: 100;
+    font-size: 0.9rem;
+  }
+  label {
+    font-size: 0.9rem;
+  }
+  .submitBtn {
+    background: $top-navbar-link-color;
+    border-color: $top-navbar-link-color;
+    color: $white;
+    &:hover {
+      background: $top-navbar-link-color;
+      border-color: $top-navbar-link-color;
+      color: $white;
+    }
+  }
+  .alert-danger {
+    font-size: 0.9rem;
+  }
+}
 </style>
