@@ -25,14 +25,18 @@
           id="logo-email"
           label="Email"
           label-for="email"
+          :invalid-feedback="emailInvalidFeedback"
+          :state="emailValid"
         >
           <b-form-input
             id="email"
             v-model="$v.email.$model"
             type="email"
             placeholder="Enter Your Email Address"
-            :state="emailState"
+            :state="emailValid"
+            :aria-invalid="emailValid"
             size="md"
+            autocomplete="off"
           />
         </b-form-group>
       </b-col>
@@ -43,14 +47,18 @@
           id="logo-password"
           label="Password"
           label-for="password"
+          :state="passWordValid"
+          :invalid-feedback="passWordInvalidFeedback"
         >
           <b-form-input
             id="password"
             v-model="$v.password.$model"
             type="password"
-            :state="passWordState"
+            :state="passWordValid"
             size="md"
             placeholder="Enter your password"
+            autocomplete="off"
+            :aria-invalid="passWordValid"
           />
         </b-form-group>
       </b-col>
@@ -60,7 +68,9 @@
       class="mb-3"
     >
       <b-col class="text-center">
-        Forgot Password ?
+        <b-link to="forgot">
+          Forgot Password ?
+        </b-link>
       </b-col>
     </b-row>
     <b-row no-gutters>
@@ -69,6 +79,7 @@
           block
           variant="outline-primary"
           :disabled="submit"
+          class="submitBtn"
           @click="handleClick"
         >
           Login
@@ -101,14 +112,25 @@ export default {
     }
   },
   computed: {
-    passWordState () {
+    passWordValid () {
       return this.$v.password.$anyDirty ? !this.$v.password.$anyError : null
     },
-    emailState () {
+    emailValid () {
       return this.$v.email.$anyDirty ? !this.$v.email.$anyError : null
+    },
+    emailInvalidFeedback () {
+      return this.emailValid === false ? 'Email address is required' : null
+    },
+    passWordInvalidFeedback () {
+      return this.passWordValid === false ? 'Password is required' : null
     },
   },
   methods: {
+    reset () {
+      this.$v.email.$model = null
+      this.$v.password.$model = null
+      this.$v.$reset()
+    },
     handleClick () {
       this.invalid = false
       this.submit = true
@@ -134,11 +156,35 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+@import '../../assets/scss/variables';
+
 .LoginFormComponent {
   font-weight: 100;
   input {
     font-weight: 100;
+    font-size: 0.9rem;
+  }
+  label {
+    font-size: 0.9rem;
+  }
+  a {
+    color: $top-navbar-link-color;
+    font-size: 0.9rem;
+    &:hover{
+      color: $top-navbar-link-color;
+      text-decoration: none;
+    }
+  }
+  .submitBtn {
+    background: $top-navbar-link-color;
+    border-color: $top-navbar-link-color;
+    color: $white;
+    &:hover {
+      background: $top-navbar-link-color;
+      border-color: $top-navbar-link-color;
+      color: $white;
+    }
   }
 }
 .LogoText {

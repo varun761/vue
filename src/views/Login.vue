@@ -3,22 +3,28 @@
     <b-container fluid>
       <b-row no-gutters>
         <b-col
-          cols="12"
+          cols="10"
           md="5"
           class="LoginForm"
         >
-          <b-tabs content-class="LoginTabContent">
+          <b-tabs
+            v-model="activeTabs"
+            content-class="LoginTabContent"
+          >
             <b-tab
               title="Login"
               class="px-3 py-3"
             >
-              <LoginForm @invalid="()=> shake = true" />
+              <LoginForm
+                ref="LoginForm"
+                @invalid="()=> shake = true"
+              />
             </b-tab>
             <b-tab
               title="Sign Up"
               class="px-3 py-3"
             >
-              <SignUpForm />
+              <SignUpForm ref="SignUpForm" />
             </b-tab>
           </b-tabs>
         </b-col>
@@ -35,7 +41,20 @@ export default {
   components: { LoginForm, SignUpForm },
   data () {
     return {
-      shake: false
+      shake: false,
+      activeTabs: 0
+    }
+  },
+  watch: {
+    activeTabs: 'resetForms' 
+  },
+  methods: {
+    resetForms (value) {
+      if (value === 0) {
+        this.$refs.SignUpForm.reset()
+      } else if (value === 1) {
+        this.$refs.LoginForm.reset()
+      }
     }
   }
 }
@@ -44,10 +63,20 @@ export default {
 <style lang="scss">
 @import '../assets/scss/variables';
 .LoginContent {
-    background: $top-navbar-background;
-    display: flex;
-    min-height: 100vh;
-    align-items: center;
+  background: $top-navbar-background;
+  display: flex;
+  min-height: 100vh;
+  align-items: center;
+  .nav-tabs {
+    transform: rotate(-90deg);
+    top: 61px;
+    position: absolute;
+    left: -105px;
+  }
+  .nav-link {
+    background: $white;
+    color: $top-navbar-link-color;
+  }
 }
 .LoginForm {
     margin: 0 auto;
@@ -58,6 +87,7 @@ export default {
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
   border-top-right-radius: 5px;
+  box-shadow: 9px 9px 10px 0px #676767;
 }
 .shake {
   animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
