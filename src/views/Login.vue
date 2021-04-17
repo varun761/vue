@@ -1,65 +1,26 @@
 <template>
   <div :class="{ 'LoginContent': true, 'shake': shake}">
     <b-container fluid>
-      <b-row>
+      <b-row no-gutters>
         <b-col
           cols="12"
           md="5"
-          class="LoginForm px-3 py-3"
+          class="LoginForm"
         >
-          <b-row
-            no-gutters
-            class="text-center"
-          >
-            <b-col class="LogoText font-weight-lighter mb-3">
-              Logo Here
-            </b-col>
-          </b-row>
-          <b-row no-gutters>
-            <b-col>
-              <b-form-group
-                id="logo-email"
-                label="Email"
-                label-for="email"
-              >
-                <b-form-input
-                  id="email"
-                  v-model="$v.email.$model"
-                  type="email"
-                  placeholder="Enter Your Email Address"
-                  :state="$v.email.$anyDirty && !$v.email.$anyError"
-                />
-              </b-form-group>
-            </b-col>
-          </b-row>
-          <b-row no-gutters>
-            <b-col>
-              <b-form-group
-                id="logo-password"
-                label="Password"
-                label-for="password"
-              >
-                <b-form-input
-                  id="password"
-                  v-model="$v.password.$model"
-                  type="password"
-                  :state="$v.password.$anyDirty && !$v.password.$anyError"
-                  placeholder="Enter your password"
-                />
-              </b-form-group>
-            </b-col>
-          </b-row>
-          <b-row no-gutters>
-            <b-col>
-              <b-button
-                block
-                variant="outline-primary"
-                @click="handleClick"
-              >
-                Submit
-              </b-button>
-            </b-col>
-          </b-row>
+          <b-tabs content-class="LoginTabContent">
+            <b-tab
+              title="Login"
+              class="px-3 py-3"
+            >
+              <LoginForm @invalid="()=> shake = true" />
+            </b-tab>
+            <b-tab
+              title="Sign Up"
+              class="px-3 py-3"
+            >
+              <SignUpForm />
+            </b-tab>
+          </b-tabs>
         </b-col>
       </b-row>
     </b-container>
@@ -67,41 +28,14 @@
 </template>
 
 <script>
-import { required } from 'vuelidate/lib/validators'
-import { Firebase } from '../firebase.config'
+import LoginForm from './forms/LoginForm'
+import SignUpForm from './forms/SignUpForm'
 
 export default {
+  components: { LoginForm, SignUpForm },
   data () {
     return {
-      email: null,
-      password: null,
       shake: false
-    }
-  },
-  validations: {
-    email: {
-      required
-    },
-    password: {
-      required
-    }
-  },
-  methods: {
-    handleClick () {
-      this.shake = false
-      this.$v.$touch()
-      if (this.$v.$invalid) {
-        return false
-      }
-      console.log('hello')
-      Firebase.auth().signInWithEmailAndPassword(this.$v.email.$model, this.$v.password.$model)
-        .then((userCredential) => {
-          console.log(userCredential)
-        })
-        .catch((e) => {
-          console.log(e)
-          this.shake = true
-        })
     }
   }
 }
@@ -112,18 +46,19 @@ export default {
 .LoginContent {
     background: $top-navbar-background;
     display: flex;
-    height: 100vh;
+    min-height: 100vh;
     align-items: center;
 }
 .LoginForm {
     margin: 0 auto;
-    background: $white;
     border-radius: 5px;
 }
-.LogoText {
-  font-size: 1.25rem;
+.LoginTabContent {
+  background: $white;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  border-top-right-radius: 5px;
 }
-
 .shake {
   animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
   transform: translate3d(0, 0, 0);
