@@ -233,7 +233,8 @@ export default {
                 title: 'Contact Us'
             },
             {
-                title: 'Login'
+                title: 'Login',
+                path: 'login'
             }
         ]
       }
