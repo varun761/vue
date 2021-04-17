@@ -17,7 +17,8 @@ footer {
     a {
         color: $top-navbar-link-color;
         &:hover{
-            color: $top-navbar-link-hover-color;
+            color: $top-navbar-link-color;
+            text-decoration: none;
         }
     }
 }
