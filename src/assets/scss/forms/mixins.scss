@@ -1,0 +1,36 @@
+@mixin form {
+    font-weight: 100;
+    input {
+      font-weight: 100;
+      font-size: 0.9rem;
+    }
+    label {
+      font-size: 0.9rem;
+    }
+    a {
+      color: $top-navbar-link-color;
+      font-size: 0.9rem;
+      &:hover {
+        color: $top-navbar-link-color;
+        text-decoration: none;
+      }
+    }
+    .submitBtn {
+      background: $top-navbar-link-color;
+      border-color: $top-navbar-link-color;
+      color: $white;
+      font-size: 0.9rem;
+      &:hover {
+        background: $top-navbar-link-color;
+        border-color: $top-navbar-link-color;
+        color: $white;
+      }
+    }
+    .alert-danger {
+        font-size: 0.9rem;
+    }
+}
+
+@mixin logo {
+    font-size: 1.25rem;
+}
