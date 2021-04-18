@@ -26,13 +26,16 @@
           id="logo-email"
           label="Email"
           label-for="email"
+          :invalid-feedback="emailInvalidFeedback"
+          :state="emailValid"
         >
           <b-form-input
             id="email"
             v-model="$v.email.$model"
             type="email"
             placeholder="Enter Your Email Address"
-            :state="emailState"
+            :state="emailValid"
+            :aria-invalid="emailValid"
           />
         </b-form-group>
       </b-col>
@@ -43,13 +46,16 @@
           id="logo-password"
           label="Password"
           label-for="password"
+          :state="passWordValid"
+          :invalid-feedback="passWordInvalidFeedback"
         >
           <b-form-input
             id="password"
             v-model="$v.password.$model"
             type="password"
-            :state="passWordState"
+            :state="passWordValid"
             placeholder="Enter your password"
+            :aria-invalid="passWordValid"
           />
         </b-form-group>
       </b-col>
@@ -91,11 +97,17 @@ export default {
     password: { required }
   },
   computed: {
-    passWordState() {
-      return this.$v.password.$anyDirty ? !this.$v.password.$anyError : null;
+    passWordValid () {
+      return this.$v.password.$anyDirty ? !this.$v.password.$anyError : null
     },
-    emailState() {
-      return this.$v.email.$anyDirty ? !this.$v.email.$anyError : null;
+    emailValid () {
+      return this.$v.email.$anyDirty ? !this.$v.email.$anyError : null
+    },
+    emailInvalidFeedback () {
+      return this.emailValid === false ? 'Email address is required' : null
+    },
+    passWordInvalidFeedback () {
+      return this.passWordValid === false ? 'Password is required' : null
     },
   },
   methods: {
@@ -148,30 +160,11 @@ export default {
 
 <style lang="scss">
 @import '../../assets/scss/variables';
+@import '../../assets/scss/forms/mixins';
 .LogoText {
-  font-size: 1.25rem;
+  @include logo;
 }
 .SignUpForm {
-  font-weight: 100;
-  input {
-    font-weight: 100;
-    font-size: 0.9rem;
-  }
-  label {
-    font-size: 0.9rem;
-  }
-  .submitBtn {
-    background: $top-navbar-link-color;
-    border-color: $top-navbar-link-color;
-    color: $white;
-    &:hover {
-      background: $top-navbar-link-color;
-      border-color: $top-navbar-link-color;
-      color: $white;
-    }
-  }
-  .alert-danger {
-    font-size: 0.9rem;
-  }
+  @include form;
 }
 </style>
