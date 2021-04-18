@@ -1,3 +1,7 @@
+// Bootstrap and its default variables
+@import '../../../node_modules/bootstrap/scss/bootstrap';
+// BootstrapVue and its default variables
+@import '../../../node_modules/bootstrap-vue/src/index.scss';
 $top-navbar-background: #5cdb95;
 $top-navbar-link-color: #05386B;
 $top-navbar-link-hover-color: #fff;
