@@ -70,7 +70,7 @@ export default {
   align-items: center;
   .nav-tabs {
     transform: rotate(-90deg);
-    top: 61px;
+    top: 62px;
     position: absolute;
     left: -105px;
     @media screen and (max-width: map-get($grid-breakpoints, "sm")) {
@@ -82,6 +82,8 @@ export default {
     .nav-link {
       background: $white;
       color: $top-navbar-link-color;
+      border-top-right-radius: 10px;
+      border-top-left-radius: 10px;
       &.active {
         background: $top-navbar-link-color;
         color: $white;
