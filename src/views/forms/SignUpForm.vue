@@ -23,6 +23,26 @@
     <b-row no-gutters>
       <b-col>
         <b-form-group
+          id="logo-fullname"
+          label="Full name"
+          label-for="fullname"
+          :state="fullNameValid"
+          :invalid-feedback="fullNameInvalidFeedback"
+        >
+          <b-form-input
+            id="fullname"
+            v-model="$v.fullname.$model"
+            type="text"
+            :state="fullNameValid"
+            placeholder="Enter your full name"
+            :aria-invalid="fullNameInvalidFeedback"
+          />
+        </b-form-group>
+      </b-col>
+    </b-row>
+    <b-row no-gutters>
+      <b-col>
+        <b-form-group
           id="logo-email"
           label="Email"
           label-for="email"
@@ -33,7 +53,7 @@
             id="email"
             v-model="$v.email.$model"
             type="email"
-            placeholder="Enter Your Email Address"
+            placeholder="Enter your email address"
             :state="emailValid"
             :aria-invalid="emailValid"
           />
@@ -84,6 +104,7 @@ export default {
   name: "SignUpForm",
   data() {
     return {
+      fullname: null,
       email: null,
       password: null,
       cpass: null,
@@ -93,18 +114,25 @@ export default {
     };
   },
   validations: {
+    fullname: { required },
     email: { required },
     password: { required }
   },
   computed: {
-    passWordValid () {
-      return this.$v.password.$anyDirty ? !this.$v.password.$anyError : null
+    fullNameValid () {
+      return this.$v.fullname.$anyDirty ? !this.$v.fullname.$anyError : null
+    },
+    fullNameInvalidFeedback () {
+      return this.fullNameValid === false ? 'Full name is required' : null
     },
     emailValid () {
       return this.$v.email.$anyDirty ? !this.$v.email.$anyError : null
     },
     emailInvalidFeedback () {
       return this.emailValid === false ? 'Email address is required' : null
+    },
+    passWordValid () {
+      return this.$v.password.$anyDirty ? !this.$v.password.$anyError : null
     },
     passWordInvalidFeedback () {
       return this.passWordValid === false ? 'Password is required' : null
