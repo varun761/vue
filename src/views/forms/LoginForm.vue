@@ -15,7 +15,7 @@
           variant="danger"
           dismissible
         >
-          Email or password is incorrect.
+          {{ error }}
         </b-alert>
       </b-col>
     </b-row>
@@ -100,7 +100,8 @@ export default {
       email: null,
       password: null,
       invalid: false,
-      submit: false
+      submit: false,
+      error: null
     }
   },
   validations: {
@@ -145,9 +146,8 @@ export default {
           this.$emit('valid', userCredential)
         })
         .catch((e) => {
-          const { response } = e
-          console.log(response)
           this.invalid = true
+          this.error = e.message
           this.$emit('invalid')
         })
         .finally(() => this.submit = false)
@@ -158,36 +158,11 @@ export default {
 
 <style lang="scss">
 @import '../../assets/scss/variables';
-
+@import '../../assets/scss/forms/mixins';
 .LoginFormComponent {
-  font-weight: 100;
-  input {
-    font-weight: 100;
-    font-size: 0.9rem;
-  }
-  label {
-    font-size: 0.9rem;
-  }
-  a {
-    color: $top-navbar-link-color;
-    font-size: 0.9rem;
-    &:hover{
-      color: $top-navbar-link-color;
-      text-decoration: none;
-    }
-  }
-  .submitBtn {
-    background: $top-navbar-link-color;
-    border-color: $top-navbar-link-color;
-    color: $white;
-    &:hover {
-      background: $top-navbar-link-color;
-      border-color: $top-navbar-link-color;
-      color: $white;
-    }
-  }
+  @include form;
 }
 .LogoText {
-  font-size: 1.25rem;
+  @include logo;
 }
 </style>

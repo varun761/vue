@@ -3,7 +3,8 @@
     <b-container fluid>
       <b-row no-gutters>
         <b-col
-          cols="10"
+          cols="12"
+          sm="7"
           md="5"
           class="LoginForm"
         >
@@ -72,10 +73,21 @@ export default {
     top: 61px;
     position: absolute;
     left: -105px;
-  }
-  .nav-link {
-    background: $white;
-    color: $top-navbar-link-color;
+    @media screen and (max-width: map-get($grid-breakpoints, "sm")) {
+      position: relative;
+      transform: initial;
+      left:0;
+      top:0;
+    }
+    .nav-link {
+      background: $white;
+      color: $top-navbar-link-color;
+      &.active {
+        background: $top-navbar-link-color;
+        color: $white;
+        border-color: $top-navbar-link-color;
+      }
+    }
   }
 }
 .LoginForm {
