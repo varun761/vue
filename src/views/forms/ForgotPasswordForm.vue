@@ -14,8 +14,21 @@
           :show="invalid"
           variant="danger"
           dismissible
+          @dismissed="handleErrorDismissed"
         >
-          Email is not valid.
+          {{ error }}
+        </b-alert>
+      </b-col>
+    </b-row>
+    <b-row>
+      <b-col>
+        <b-alert
+          :show="emailSend"
+          variant="success"
+          dismissible
+          @dismissed="$router.push('/login')"
+        >
+          We have send an email to your email address .Please check your email for further instruction.
         </b-alert>
       </b-col>
     </b-row>
@@ -25,13 +38,16 @@
           id="logo-email"
           label="Email"
           label-for="email"
+          :state="emailValid"
+          :invalid-feedback="emailInvalidFeedback"
         >
           <b-form-input
             id="email"
             v-model="$v.email.$model"
             type="email"
             placeholder="Enter Your Email Address"
-            :state="emailState"
+            :state="emailValid"
+            :aria-state="emailValid"
           />
         </b-form-group>
       </b-col>
@@ -69,25 +85,32 @@ export default {
     return {
       email: null,
       submit: false,
-      invalid: false
+      invalid: false,
+      emailSend: false,
+      error: null,
     };
   },
   validations: {
     email: { required }
   },
   computed: {
-    passWordState() {
-      return this.$v.password.$anyDirty ? !this.$v.password.$anyError : null;
-    },
-    emailState() {
+    emailValid() {
       return this.$v.email.$anyDirty ? !this.$v.email.$anyError : null;
+    },
+    emailInvalidFeedback () {
+      return this.emailValid === false ? 'Email address is required' : null
     },
   },
   methods: {
     reset () {
+      this.handleErrorDismissed()
       this.$v.email.$model = null
       this.$v.password.$model = null
       this.$v.$reset()
+    },
+    handleErrorDismissed () {
+      this.invalid = false
+      this.error = null
     },
     handleClick () {
       this.invalid = false
@@ -97,17 +120,14 @@ export default {
         this.submit = false
         return false
       }
-      /* Firebase.auth().createUserWithEmailAndPassword(this.$v.email.$model, this.$v.password.$model)
-        .then((userCredential) => {
-          this.$emit('valid', userCredential)
-        })
-        .catch((e) => {
-          const { response } = e
-          console.log(response)
-          this.invalid = true
-          this.$emit('invalid')
-        })
-        .finally(() => this.submit = false) */
+      const self = this
+      Firebase.auth().sendPasswordResetEmail(this.$v.email.$model).then(function() {
+        self.emailSend = true
+      }).catch(function(error) {
+        self.invalid = true
+        self.error = error.message
+      })
+      .finally(() => self.submit = false)
     }
   }
 };
@@ -115,27 +135,11 @@ export default {
 
 <style lang="scss">
 @import '../../assets/scss/variables';
+@import '../../assets/scss/forms/mixins';
 .LogoText {
-  font-size: 1.25rem;
+  @include logo;
 }
 .ForgotPasswordForm {
-  font-weight: 100;
-  input {
-    font-weight: 100;
-    font-size: 0.9rem;
-  }
-  label {
-    font-size: 0.9rem;
-  }
-  .submitBtn {
-    background: $top-navbar-link-color;
-    border-color: $top-navbar-link-color;
-    color: $white;
-    &:hover {
-      background: $top-navbar-link-color;
-      border-color: $top-navbar-link-color;
-      color: $white;
-    }
-  }
+  @include form;
 }
 </style>

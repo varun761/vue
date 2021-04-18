@@ -3,7 +3,8 @@
     <b-container fluid>
       <b-row no-gutters>
         <b-col
-          cols="10"
+          cols="12"
+          sm="7"
           md="5"
           class="ForgotForm px-3 py-3"
         >
