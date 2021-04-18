@@ -12,6 +12,7 @@
       <b-col>
         <b-alert
           :show="invalid"
+          role="alert"
           variant="danger"
           dismissible
         >
@@ -33,10 +34,13 @@
             v-model="$v.email.$model"
             type="email"
             placeholder="Enter Your Email Address"
+            aria-placeholder="Enter Your Email Address"
             :state="emailValid"
             :aria-invalid="emailValid"
             size="md"
             autocomplete="off"
+            aria-autocomplete="off"
+            aria-required="true"
           />
         </b-form-group>
       </b-col>
@@ -57,8 +61,11 @@
             :state="passWordValid"
             size="md"
             placeholder="Enter your password"
+            aria-placeholder="Enter your password"
             autocomplete="off"
             :aria-invalid="passWordValid"
+            aria-autocomplete="off"
+            aria-required="true"
           />
         </b-form-group>
       </b-col>
@@ -128,9 +135,14 @@ export default {
   },
   methods: {
     reset () {
+      this.handleDismissAlert()
       this.$v.email.$model = null
       this.$v.password.$model = null
       this.$v.$reset()
+    },
+    handleDismissAlert () {
+      this.invalid = false
+      this.error = null
     },
     handleClick () {
       this.invalid = false
