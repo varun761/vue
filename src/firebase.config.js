@@ -13,7 +13,7 @@ const config = {
   messagingSenderId: process.env.VUE_APP_FIREBASE_MESSAGING_SENDER_ID
 }
 export const Firebase = firebase.initializeApp(config)
-// export const FirebaseAuth = firebase.auth
-// export const serverTimestamp = firebase.firestore.FieldValue.serverTimestamp()
-// export const firestore = Firebase.firestore()
-// Firebase.firestore().enablePersistence({ synchronizeTabs: true })
+export const FirebaseAuth = firebase.auth()
+export const serverTimestamp = firebase.firestore.FieldValue.serverTimestamp()
+export const firestore = Firebase.firestore()
+Firebase.firestore().enablePersistence({ synchronizeTabs: true })
