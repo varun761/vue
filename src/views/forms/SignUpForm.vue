@@ -82,6 +82,26 @@
     </b-row>
     <b-row no-gutters>
       <b-col>
+        <b-form-group
+          id="logo-cpassword"
+          label="Confirm Password"
+          label-for="cpassword"
+          :state="cpassWordValid"
+          :invalid-feedback="cpassWordInvalidFeedback"
+        >
+          <b-form-input
+            id="cpassword"
+            v-model="$v.cpassword.$model"
+            type="password"
+            :state="cpassWordValid"
+            placeholder="Confirm your password"
+            :aria-invalid="cpassWordValid"
+          />
+        </b-form-group>
+      </b-col>
+    </b-row>
+    <b-row no-gutters>
+      <b-col>
         <b-button
           block
           variant="outline-primary"
@@ -97,8 +117,19 @@
 </template>
 
 <script>
-import { required } from "vuelidate/lib/validators"
-import { Firebase } from '../../firebase.config'
+import { required, sameAs, minLength } from "vuelidate/lib/validators"
+import { FirebaseAuth, firestore } from '../../firebase.config'
+
+const strongPassword = (value) => {
+  const capLettersRegex = new RegExp(/[A-Z]/)
+  const smaLetterRegex = new RegExp(/[a-z]/)
+  const numberRegex = new RegExp(/[0-9]/)
+  const specialRegex = new RegExp(/["#$%&'()*+,-./:;<=>?@[\]^_`{|}~]/)
+  if (!capLettersRegex.test(value) || !smaLetterRegex.test(value) || !numberRegex.test(value) || !specialRegex.test(value)) {
+    return false
+  }
+  return true
+}
 
 export default {
   name: "SignUpForm",
@@ -107,7 +138,7 @@ export default {
       fullname: null,
       email: null,
       password: null,
-      cpass: null,
+      cpassword: null,
       submit: false,
       invalid: false,
       error: null
@@ -116,7 +147,15 @@ export default {
   validations: {
     fullname: { required },
     email: { required },
-    password: { required }
+    password: {
+      required,
+      minLength: minLength(6),
+      strongPassword
+    },
+    cpassword: {
+      required,
+      sameAsPassword: sameAs('password')
+    },
   },
   computed: {
     fullNameValid () {
@@ -135,14 +174,38 @@ export default {
       return this.$v.password.$anyDirty ? !this.$v.password.$anyError : null
     },
     passWordInvalidFeedback () {
-      return this.passWordValid === false ? 'Password is required' : null
+      if (this.passWordValid === false) {
+        if (!this.$v.password.required) {
+          return 'Enter your password'
+        } else if (!this.$v.password.minLength) {
+          return 'Password need to be contain 5 or more than 6 characters'
+        } else if (!this.$v.password.strongPassword) {
+          return 'Password need to be contain one lowercase letter, one uppercase letter, one number and one special character'
+        }
+      }
+      return null
+    },
+    cpassWordValid () {
+      return this.$v.cpassword.$anyDirty ? !this.$v.cpassword.$anyError : null
+    },
+    cpassWordInvalidFeedback () {
+      if (this.cpassWordValid === false) {
+        if (!this.$v.cpassword.required) {
+          return 'Re-type your password'
+        } else if (!this.$v.cpassword.sameAsPassword) {
+          return 'Confirm password need to be same as password'
+        }
+      }
+      return null
     },
   },
   methods: {
     reset () {
       this.resetInvalid()
+      this.$v.fullname.$model = null
       this.$v.email.$model = null
       this.$v.password.$model = null
+      this.$v.cpassword.$model = null
       this.$v.$reset()
     },
     resetInvalid () {
@@ -159,28 +222,52 @@ export default {
       }
       const self = this
       // Signup new user
-      Firebase.auth().createUserWithEmailAndPassword(this.$v.email.$model, this.$v.password.$model)
+      FirebaseAuth.createUserWithEmailAndPassword(this.$v.email.$model, this.$v.password.$model)
         .then((userCredential) => {
           const { user } = userCredential
+          // Update user display name
+          user.updateProfile({
+            displayName: self.$v.fullname.$model
+          })
           // Send email verification to new user on success signup
-          user.sendEmailVerification().then(function() {
-            /*
-            * Emit event for verification email sent
-            */
-            self.$emit('valid', {
-              email: self.$v.email.$model,
-              password: self.$v.password.$model
-            })
+          user.sendEmailVerification().then(() => {
+            // Save user details to database
+            firestore.collection('users')
+              .doc(user.uid)
+              .set({
+                uid: user.uid,
+                fullname: self.$v.fullname.$model,
+                email: self.$v.email.$model
+              })
+              .then(() => {
+                self.submit = false
+                /*
+                * Emit event for verification email sent
+                */
+                self.$emit('valid', {
+                  email: self.$v.email.$model,
+                  password: self.$v.password.$model
+                })
+              })
+              .catch(function(e) {
+                self.submit = false
+                self.error = e.message
+                self.invalid = true
+                self.$emit('invalid')
+              });
           }).catch(function(e) {
-            console.log(e)
+            self.submit = false
+            self.error = e.message
+            self.invalid = true
+            self.$emit('invalid')
           });
         })
         .catch((e) => {
+          this.submit = false
           this.error = e.message
           this.invalid = true
           this.$emit('invalid')
         })
-        .finally(() => this.submit = false)
     }
   }
 };
