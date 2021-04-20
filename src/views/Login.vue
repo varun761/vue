@@ -13,6 +13,15 @@
             content-class="LoginTabContent"
           >
             <b-tab
+              title="Sign Up"
+              class="px-3 py-3"
+            >
+              <SignUpForm
+                ref="SignUpForm"
+                @valid="handleValidSignUp"
+              />
+            </b-tab>
+            <b-tab
               title="Login"
               class="px-3 py-3"
             >
@@ -20,12 +29,6 @@
                 ref="LoginForm"
                 @invalid="()=> shake = true"
               />
-            </b-tab>
-            <b-tab
-              title="Sign Up"
-              class="px-3 py-3"
-            >
-              <SignUpForm ref="SignUpForm" />
             </b-tab>
           </b-tabs>
         </b-col>
@@ -43,7 +46,7 @@ export default {
   data () {
     return {
       shake: false,
-      activeTabs: 0
+      activeTabs: 1
     }
   },
   watch: {
@@ -52,10 +55,20 @@ export default {
   methods: {
     resetForms (value) {
       if (value === 0) {
-        this.$refs.SignUpForm.reset()
-      } else if (value === 1) {
         this.$refs.LoginForm.reset()
+      } else if (value === 1) {
+        this.$refs.SignUpForm.reset()
       }
+    },
+    handleValidSignUp () {
+      this.$refs.SignUpForm.reset()
+      this.activeTabs = 1
+      this.$bvToast.toast('Please verify your email address.', {
+        title: 'Signup',
+        variant: 'success',
+        solid: true,
+        'auto-hide-delay': 3000
+      })
     }
   }
 }
@@ -70,9 +83,9 @@ export default {
   align-items: center;
   .nav-tabs {
     transform: rotate(-90deg);
-    top: 62px;
+    top: 60px;
     position: absolute;
-    left: -105px;
+    left: -103px;
     @media screen and (max-width: map-get($grid-breakpoints, "sm")) {
       position: relative;
       transform: initial;
@@ -80,14 +93,16 @@ export default {
       top:0;
     }
     .nav-link {
-      background: $white;
-      color: $top-navbar-link-color;
+      background: $top-navbar-link-color;
+      color: $white;
+      border-color: $top-navbar-link-color;
       border-top-right-radius: 10px;
       border-top-left-radius: 10px;
+      font-weight: 100;
       &.active {
-        background: $top-navbar-link-color;
-        color: $white;
-        border-color: $top-navbar-link-color;
+        border-color: $white;
+        background: $white;
+        color: $top-navbar-link-color;
       }
     }
   }

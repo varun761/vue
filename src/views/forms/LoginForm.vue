@@ -98,7 +98,7 @@
 
 <script>
 import { required } from 'vuelidate/lib/validators'
-import { Firebase } from '../../firebase.config'
+import { FirebaseAuth } from '../../firebase.config'
 
 export default {
   name: 'LoginForm',
@@ -152,10 +152,11 @@ export default {
         this.submit = false
         return false
       }
-      Firebase.auth().signInWithEmailAndPassword(this.$v.email.$model, this.$v.password.$model)
+      FirebaseAuth.signInWithEmailAndPassword(this.$v.email.$model, this.$v.password.$model)
         .then((userCredential) => {
-          console.log(userCredential)
-          this.$emit('valid', userCredential)
+          const { user } = userCredential
+          console.log(user)
+          this.$emit('valid', user)
         })
         .catch((e) => {
           this.invalid = true
