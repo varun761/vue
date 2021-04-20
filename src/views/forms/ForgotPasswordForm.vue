@@ -77,7 +77,7 @@
 
 <script>
 import { required } from "vuelidate/lib/validators"
-import { Firebase } from '../../firebase.config'
+import { FirebaseAuth } from '../../firebase.config'
 
 export default {
   name: "ForgotPasswordForm",
@@ -121,7 +121,7 @@ export default {
         return false
       }
       const self = this
-      Firebase.auth().sendPasswordResetEmail(this.$v.email.$model).then(function() {
+      FirebaseAuth.sendPasswordResetEmail(this.$v.email.$model).then(function() {
         self.emailSend = true
       }).catch(function(error) {
         self.invalid = true
