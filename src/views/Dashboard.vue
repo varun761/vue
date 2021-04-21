@@ -30,7 +30,10 @@ export default {
 				logoutUser () {
 					this.setAutheticatedUser(null)
 					FirebaseAuth.signOut()
-						.then(() => this.setAutheticatedUser(null))
+						.then(() => {
+							this.setAutheticatedUser(null)
+							this.$router.push('login')
+						})
 						.catch((e) => console.log(e))
 				}
 		}
