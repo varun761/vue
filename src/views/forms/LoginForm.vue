@@ -104,8 +104,8 @@ export default {
   name: 'LoginForm',
   data () {
     return {
-      email: 'sharma.varun208552@gmail.com',
-      password: 'va16P3639@',
+      email: null,
+      password: null,
       invalid: false,
       submit: false,
       error: null
