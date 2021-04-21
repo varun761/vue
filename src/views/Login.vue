@@ -28,6 +28,7 @@
               <LoginForm
                 ref="LoginForm"
                 @invalid="()=> shake = true"
+                @valid="handleValidLogin"
               />
             </b-tab>
           </b-tabs>
@@ -40,6 +41,7 @@
 <script>
 import LoginForm from './forms/LoginForm'
 import SignUpForm from './forms/SignUpForm'
+import { mapActions } from 'vuex'
 
 export default {
   components: { LoginForm, SignUpForm },
@@ -53,6 +55,7 @@ export default {
     activeTabs: 'resetForms' 
   },
   methods: {
+    ...mapActions('user', ['setAutheticatedUser']),
     resetForms (value) {
       if (value === 0) {
         this.$refs.LoginForm.reset()
@@ -69,6 +72,10 @@ export default {
         solid: true,
         'auto-hide-delay': 3000
       })
+    },
+    handleValidLogin (user) {
+      this.setAutheticatedUser(user)
+      this.$router.push('dashboard')
     }
   }
 }

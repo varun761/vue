@@ -104,8 +104,8 @@ export default {
   name: 'LoginForm',
   data () {
     return {
-      email: null,
-      password: null,
+      email: 'sharma.varun208552@gmail.com',
+      password: 'va16P3639@',
       invalid: false,
       submit: false,
       error: null
@@ -155,7 +155,6 @@ export default {
       FirebaseAuth.signInWithEmailAndPassword(this.$v.email.$model, this.$v.password.$model)
         .then((userCredential) => {
           const { user } = userCredential
-          console.log(user)
           this.$emit('valid', user)
         })
         .catch((e) => {
