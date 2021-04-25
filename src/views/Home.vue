@@ -1,15 +1,5 @@
 <template>
-  <div class="wrapper">
-    <header>
-      <b-container fluid>
-        <!--NavBar-->
-        <nav-bar
-          :items="items"
-          logo-text="Logo Here"
-          fixed="top"
-        />
-      </b-container>
-    </header>
+  <BasicLayout>
     <!--Home Slider-->
     <section class="slider">
       <b-container fluid>
@@ -36,91 +26,17 @@
         </b-row>
       </b-container>
     </section>
-    <!--FOOTER--->
-    <footer>
-      <b-container class="py-5">
-        <b-row>
-          <b-col
-            class="footer-sections"
-            cols="12"
-            md="3"
-          >
-            <h5>Our Company</h5>
-            <ul>
-              <li>About Us</li>
-              <li>Why Choose Us</li>
-              <li>Careers</li>
-              <li>Contact Us</li>
-              <li>News</li>
-            </ul>
-          </b-col>
-          <b-col
-            class="footer-sections"
-            cols="12"
-            md="3"
-          >
-            <h5>Our Company</h5>
-            <ul>
-              <li>About Us</li>
-              <li>Why Choose Us</li>
-              <li>Careers</li>
-              <li>Contact Us</li>
-              <li>News</li>
-            </ul>
-          </b-col>
-          <b-col
-            class="footer-sections"
-            cols="12"
-            md="3"
-          >
-            <h5>Our Company</h5>
-            <ul>
-              <li>About Us</li>
-              <li>Why Choose Us</li>
-              <li>Careers</li>
-              <li>Contact Us</li>
-              <li>News</li>
-            </ul>
-          </b-col>
-          <b-col
-            class="footer-sections"
-            cols="12"
-            md="3"
-          >
-            <h5>Our Company</h5>
-            <ul>
-              <li>About Us</li>
-              <li>Why Choose Us</li>
-              <li>Careers</li>
-              <li>Contact Us</li>
-              <li>News</li>
-            </ul>
-          </b-col>
-        </b-row>
-      </b-container>
-      <b-container class="py-3">
-        <b-row>
-          <b-col>
-            <div class="d-flex">
-              <div class="d-flex-column">
-                Copyright 2021 - Varun Sharma
-              </div>
-            </div>
-          </b-col>
-        </b-row>
-      </b-container>
-    </footer>
-  </div>
+  </BasicLayout>
 </template>
 
 <script>
-import NavBar from '../components/NavBar'
+import BasicLayout from './layouts/BasicLayout'
 import HomeSlider from '../components/HomeSlider'
 import ServicesCard from '../components/ServicesCard'
 
 export default {
     components: {
-        NavBar,
+        BasicLayout,
         HomeSlider,
         ServicesCard
     },
@@ -214,29 +130,6 @@ export default {
             button: 'Sample 2'
           }
         ],
-        items: [
-            {
-                title: 'Home',
-                child: [
-                    {
-                        title: 'DropDown'
-                    }
-                ]
-            },
-            {
-                title: 'About Us'
-            },
-            {
-                title: 'Plans'
-            },
-            {
-                title: 'Contact Us'
-            },
-            {
-                title: 'Login',
-                path: 'login'
-            }
-        ]
       }
     }
 }

@@ -1,42 +1,37 @@
 <template>
-  <b-container fluid>
-    <b-row no-gutters>
-      <b-col>
-        Welcome {{ userDisplayName }} !
-      </b-col>
-      <b-col>
-        <div v-if="userDisplayName">
-          <b-btn @click="logoutUser">
-            Logout
-          </b-btn>
-        </div>
-      </b-col>
-    </b-row>
-  </b-container>
+  <div class="dashboard">
+    <AuthBasicLayout>
+      <template v-slot:default="userDetails">
+        <b-row>
+          <b-col>
+            <h3>
+              Welcome {{ userDetails.user.displayName }}!
+            </h3>
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col>
+            This Year
+          </b-col>
+          <b-col>
+            This Month
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col>
+            This Week
+          </b-col>
+        </b-row>
+      </template>
+    </AuthBasicLayout>
+  </div>
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
-import { FirebaseAuth } from '../firebase.config'
+import AuthBasicLayout from './layouts/AuthBasicLayout'
 export default {
-		computed: {
-				...mapState('user', ['currentUser']),
-				userDisplayName () {
-						return this.currentUser && this.currentUser.displayName ? this.currentUser.displayName : null
-				}
-		},
-		methods: {
-				...mapActions('user', ['setAutheticatedUser']),
-				logoutUser () {
-					this.setAutheticatedUser(null)
-					FirebaseAuth.signOut()
-						.then(() => {
-							this.setAutheticatedUser(null)
-							this.$router.push('login')
-						})
-						.catch((e) => console.log(e))
-				}
-		}
+  name: 'Dashboard',
+  components: { AuthBasicLayout },
 }
 </script>
 
