@@ -1,56 +1,47 @@
 <template>
   <div class="wrapper">
-    <!--<b-sidebar
-      id="sidebar-1"
-      title="Sidebar"
-      shadow
-      :visible="true"
-    >
-      <div class="px-3 py-2">
-        <p>
-          Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis
-          in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-        </p>
-        <b-img
-          src="https://picsum.photos/500/500/?image=54"
-          fluid
-          thumbnail
-        />
+    <div class="sidebar">
+      <div class="profile-information">
+        <div class="avatar mr-2">
+          <b-avatar />
+        </div>
+        <div class="details">
+          <p class="mb-0 font-weight-bold">
+            {{ userDisplayName }}
+          </p>
+          <b-button
+            variant="outline"
+            class="logout"
+            @click="logoutUser"
+          >
+            Logout
+          </b-button>
+        </div>
       </div>
-    </b-sidebar>-->
+      <div class="left-sidebar">
+        <div class="sidebar-item">
+          Dashboard
+        </div>
+        <div class="sidebar-item">
+          Popup
+        </div>
+        <div class="sidebar-item">
+          Coupons
+        </div>
+        <div class="sidebar-item">
+          Profile
+        </div>
+        <div class="sidebar-item">
+          Plans
+        </div>
+      </div>
+    </div>
     <div class="main-content">
       <b-row no-gutters>
         <b-col
-          md="3"
+          class="px-3 py-3 offset-2"
+          md="10"
         >
-          <b-nav
-            class="sidebar"
-            vertical
-          >
-            <b-nav-item>
-              Dashboard
-            </b-nav-item>
-            <b-nav-item>
-              Projects
-            </b-nav-item>
-            <b-nav-item>
-              Employess
-            </b-nav-item>
-            <b-nav-item>
-              Leaves
-            </b-nav-item>
-            <b-nav-item>
-              Profile
-            </b-nav-item>
-            <b-nav-item
-              href="javascript:void(0);"
-              @click="logoutUser"
-            >
-              Logout
-            </b-nav-item>
-          </b-nav>
-        </b-col>
-        <b-col class="px-3 py-3">
           <slot :user="currentUser" />
         </b-col>
       </b-row>
@@ -99,16 +90,31 @@ export default {
 <style lang="scss">
 @import '../../assets/scss/variables.scss';
 .sidebar {
-  background: $top-navbar-background;
+  width: 15%;
+  float: left;
   height: 100vh;
-  li {
+  position: fixed;
+  z-index: 1;
+  color: #fff;
+  min-width: 205px;
+  background: $top-navbar-link-color;
+  .profile-information {
+    padding: 10px 10px;
     border-bottom: 1px solid #fff;
-    a {
-      color: $top-navbar-link-color;
-      padding: 20px 1rem;
-      &:hover {
-        color: $top-navbar-link-hover-color;
-      }
+    display: flex;
+    align-items: center;
+    .logout {
+      font-size: 12px;
+      font-weight: 100;
+      color: #fff;
+      padding: 0;
+    }
+  }
+  .left-sidebar {
+    margin-bottom: 0;
+    .sidebar-item {
+      padding: 10px 10px;
+      font-weight: 100;
     }
   }
 }
