@@ -29,9 +29,9 @@ const actions = {
 }
 
 const getters = {
-    currentUser: state => state.currentUser,
-    isAuth: state => state.isAuth,
-    isVerified: state => state.isVerified,
+    currentUser: state => state && state.currentUser,
+    isAuth: state => state && state.isAuth,
+    isVerified: state => state && state.isVerified,
 }
 
 export default {
