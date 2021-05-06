@@ -123,6 +123,8 @@ export default {
       const self = this
       FirebaseAuth.sendPasswordResetEmail(this.$v.email.$model).then(function() {
         self.emailSend = true
+        self.email = null
+        self.$v.$reset()
       }).catch(function(error) {
         self.invalid = true
         self.error = error.message
