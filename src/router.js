@@ -29,7 +29,14 @@ const router = new Router({
             name: 'dashboard',
             meta: { requireAuth: true },
             component: () => import('./views/Dashboard.vue'),
-        }
+        },
+        {
+            path: '*',
+            name: 'Not Found',
+            meta: { requireAuth: false },
+            component: () => import('./views/NotFound.vue'),
+        },
+
     ]
 })
 router.beforeEach((to, from, next) => {
