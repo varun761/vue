@@ -7,19 +7,9 @@
             <h3>
               Welcome {{ userDetails.user.displayName }}!
             </h3>
-          </b-col>
-        </b-row>
-        <b-row>
-          <b-col>
-            This Year
-          </b-col>
-          <b-col>
-            This Month
-          </b-col>
-        </b-row>
-        <b-row>
-          <b-col>
-            This Week
+            <p>
+              Thanks for choosing our product.
+            </p>
           </b-col>
         </b-row>
       </template>
